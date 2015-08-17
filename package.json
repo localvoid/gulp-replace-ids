@@ -1,0 +1,32 @@
+{
+  "name": "gulp-replace-ids",
+  "version": "0.1.0",
+  "description": "gulp plugin for replacing ids using predefined dictionary",
+  "license": "BSD",
+  "author": {
+    "name": "Boris Kaul",
+    "email": "localvoid@gmail.com",
+    "url": "https://github.com/localvoid"
+  },
+  "keywords": [
+    "css",
+    "js",
+    "jstyle",
+    "browser",
+    "gulp"
+  ],
+  "homepage": "https://github.com/localvoid/gulp-replace-ids",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/localvoid/gulp-replace-ids"
+  },
+  "bugs": {
+    "url": "https://github.com/localvoid/gulp-replace-ids/issues"
+  },
+  "github": "https://github.com/localvoid/gulp-replace-ids",
+  "dependencies": {
+    "through2": "~2.0.0",
+    "gulp-util": "~3.0.6"
+  },
+  "devDependencies": {}
+}
