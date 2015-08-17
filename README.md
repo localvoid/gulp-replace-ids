@@ -1,6 +1,6 @@
 # gulp-replace-ids
 
-[Gulp](http://gulpjs.com) for replacing ids using predefined
+[Gulp](http://gulpjs.com) plugin for replacing ids using predefined
 dictionary.
 
 ## Install
