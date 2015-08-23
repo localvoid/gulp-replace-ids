@@ -24,15 +24,14 @@ module.exports = function(opts) {
       return cb();
     }
 
-    function replace(dict) {
+    function replace(file, dict) {
       var contents = file.contents.toString('utf8');
 
       contents = contents.replace(pattern, function(m, p1) {
         return dict[p1] || p1;
       });
 
-      file.contents = new Buffer(contents);
-      this.push(file);
+      return file.clone({contents: new Buffer(contents)});
     }
 
     if (typeof dict === 'string') {
@@ -44,14 +43,14 @@ module.exports = function(opts) {
           return cb();
         }
 
-        replace(JSON.parse(data));
+        this.push(replace(file, JSON.parse(data)));
         cb();
       }.bind(this));
     } else {
       if (dict === void 0) {
         dict = {};
       }
-      replace(dict);
+      this.push(replace(file, dict));
       cb();
     }
   });
