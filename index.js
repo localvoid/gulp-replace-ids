@@ -4,9 +4,14 @@ var fs = require('fs');
 var gutil = require('gulp-util');
 var through = require('through2');
 
-module.exports = function(options) {
-  var dictPath = options.dict;
-  var pattern = new RegExp(options.pattern, "g");
+module.exports = function(opts) {
+  opts = opts || {};
+  if (!opts.dict) {
+    throw new gutil.PluginError('gulp-replace-ids', 'Dictionary isn\'t specified');
+  }
+
+  var dictPath = opts.dict;
+  var pattern = new RegExp(opts.pattern || '{{\ *([a-zA-Z0-9_-]+)\* }}', "g");
 
   return through.obj(function(file, enc, cb) {
     if (file.isNull()) {
