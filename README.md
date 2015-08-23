@@ -27,7 +27,7 @@ gulp.task('default', function () {
 
 ## API
 
-### jstyle(options)
+### replaceIds(options)
 
 #### options
 
