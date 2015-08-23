@@ -14,9 +14,14 @@ module.exports = function(options) {
       return cb();
     }
 
-    fs.readFile(dictPath, function(error, data) {
-      if (error) {
-        this.emit('error', new gutil.PluginError('gulp-replace-ids', 'gulp-replace-ids failed: ' + error, {
+    if (file.isStream()) {
+      this.emit('error', new gutil.PluginError('gulp-replace-ids', 'Streams not supported!'));
+      return cb();
+    }
+
+    fs.readFile(dictPath, function(err, data) {
+      if (err) {
+        this.emit('error', new gutil.PluginError('gulp-replace-ids', 'gulp-replace-ids failed: ' + err, {
           fileName: file.path
         }));
       } else {
