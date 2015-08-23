@@ -10,7 +10,7 @@ module.exports = function(opts) {
     throw new gutil.PluginError('gulp-replace-ids', 'Dictionary isn\'t specified');
   }
 
-  var dictPath = opts.dict;
+  var dict = opts.dict;
   var pattern = new RegExp(opts.pattern || '{{\ *([a-zA-Z0-9_-]+)\* }}', "g");
 
   return through.obj(function(file, enc, cb) {
@@ -24,24 +24,35 @@ module.exports = function(opts) {
       return cb();
     }
 
-    fs.readFile(dictPath, function(err, data) {
-      if (err) {
-        this.emit('error', new gutil.PluginError('gulp-replace-ids', 'gulp-replace-ids failed: ' + err, {
-          fileName: file.path
-        }));
-      } else {
-        var dict = JSON.parse(data);
-        var contents = file.contents.toString('utf8');
+    function replace(dict) {
+      var contents = file.contents.toString('utf8');
 
-        contents = contents.replace(pattern, function(m, p1) {
-          return dict[p1] || p1;
-        });
+      contents = contents.replace(pattern, function(m, p1) {
+        return dict[p1] || p1;
+      });
 
-        file.contents = new Buffer(contents);
-        this.push(file);
+      file.contents = new Buffer(contents);
+      this.push(file);
+    }
+
+    if (typeof dict === 'string') {
+      fs.readFile(dict, function(err, data) {
+        if (err) {
+          this.emit('error', new gutil.PluginError('gulp-replace-ids', 'gulp-replace-ids failed: ' + err, {
+            fileName: file.path
+          }));
+          return cb();
+        }
+
+        replace(JSON.parse(data));
+        cb();
+      }.bind(this));
+    } else {
+      if (dict === void 0) {
+        dict = {};
       }
-
+      replace(dict);
       cb();
-    }.bind(this));
+    }
   });
 };
